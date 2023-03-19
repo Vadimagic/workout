@@ -9,15 +9,6 @@ import { calculateMinute } from '../workout/calculate-minute.js'
 	@access 	private
 */
 export const getUserProfile = asyncHandler(async (req, res) => {
-	res.json({ user: req.user })
-})
-
-/*
-	@desc 		Get statistic
-	@route 		GET /api/statistic
-	@access 	private
-*/
-export const getStatistic = asyncHandler(async (req, res) => {
 	const countExerciseTimesComplete = await prisma.exerciseLog.count({
 		where: {
 			userId: req.user.id,
@@ -43,18 +34,21 @@ export const getStatistic = asyncHandler(async (req, res) => {
 		}
 	})
 
-	res.json([
-		{
-			label: 'minutes',
-			value: calculateMinute(countExerciseTimesComplete) || 0
-		},
-		{
-			label: 'kgs',
-			value: kgs._sum.weight || 0
-		},
-		{
-			label: 'workouts',
-			value: workouts
-		}
-	])
+	res.json({
+		user: req.user,
+		statistics: [
+			{
+				label: 'minutes',
+				value: calculateMinute(countExerciseTimesComplete) || 0
+			},
+			{
+				label: 'kgs',
+				value: kgs._sum.weight || 0
+			},
+			{
+				label: 'workouts',
+				value: workouts
+			}
+		]
+	})
 })
