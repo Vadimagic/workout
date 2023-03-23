@@ -1,0 +1,16 @@
+.wrapper {
+	position: relative;
+
+	button {
+		background-color: transparent;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		svg {
+			font-size: 30px;
+			> path {
+				fill: #fff;
+			}
+		}
+	}
+}
